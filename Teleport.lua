@@ -3,29 +3,29 @@ local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 -- Create Main GUI
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "MainGUI"
-ScreenGui.Parent = playerGui
+local MainGui = Instance.new("ScreenGui")
+MainGui.Name = "MainGUI"
+MainGui.Parent = playerGui
 
 -- Frame for Main GUI
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0.3, 0, 0.5, 0)
-Frame.Position = UDim2.new(0.35, 0, 0.25, 0)
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.BorderSizePixel = 0
-Frame.Parent = ScreenGui
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+MainFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = MainGui
 
 -- Styling for Main GUI
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = Frame
+UICorner.Parent = MainFrame
 
 local UIGradient = Instance.new("UIGradient")
 UIGradient.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, Color3.fromRGB(45, 45, 45)),
     ColorSequenceKeypoint.new(1, Color3.fromRGB(15, 15, 15))
 }
-UIGradient.Parent = Frame
+UIGradient.Parent = MainFrame
 
 -- Title Label
 local Title = Instance.new("TextLabel")
@@ -35,7 +35,7 @@ Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextScaled = true
 Title.Font = Enum.Font.GothamBold
-Title.Parent = Frame
+Title.Parent = MainFrame
 
 -- Name Input
 local NameInput = Instance.new("TextBox")
@@ -47,7 +47,7 @@ NameInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 NameInput.BorderSizePixel = 0
 NameInput.TextScaled = true
 NameInput.Font = Enum.Font.Gotham
-NameInput.Parent = Frame
+NameInput.Parent = MainFrame
 
 -- Teleport Button
 local TeleportButton = Instance.new("TextButton")
@@ -59,7 +59,7 @@ TeleportButton.Text = "Teleport"
 TeleportButton.TextScaled = true
 TeleportButton.Font = Enum.Font.Gotham
 TeleportButton.BorderSizePixel = 0
-TeleportButton.Parent = Frame
+TeleportButton.Parent = MainFrame
 
 -- Loop Teleport Button
 local LoopButton = Instance.new("TextButton")
@@ -71,7 +71,7 @@ LoopButton.Text = "Loop Teleport"
 LoopButton.TextScaled = true
 LoopButton.Font = Enum.Font.Gotham
 LoopButton.BorderSizePixel = 0
-LoopButton.Parent = Frame
+LoopButton.Parent = MainFrame
 
 -- Camera Lock Button
 local CameraLockButton = Instance.new("TextButton")
@@ -83,31 +83,24 @@ CameraLockButton.Text = "Lock Camera"
 CameraLockButton.TextScaled = true
 CameraLockButton.Font = Enum.Font.Gotham
 CameraLockButton.BorderSizePixel = 0
-CameraLockButton.Parent = Frame
+CameraLockButton.Parent = MainFrame
 
--- Destroy Button
-local DestroyButton = Instance.new("TextButton")
-DestroyButton.Size = UDim2.new(0.9, 0, 0.15, 0)
-DestroyButton.Position = UDim2.new(0.05, 0, 0.85, 0)
-DestroyButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60)
-DestroyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-DestroyButton.Text = "Destroy GUI"
-DestroyButton.TextScaled = true
-DestroyButton.Font = Enum.Font.Gotham
-DestroyButton.BorderSizePixel = 0
-DestroyButton.Parent = Frame
+-- Create Control GUI
+local ControlGui = Instance.new("ScreenGui")
+ControlGui.Name = "ControlGUI"
+ControlGui.Parent = playerGui
 
--- Toggle Visibility Button
+-- Hide/Show Button
 local ToggleButton = Instance.new("TextButton")
-ToggleButton.Size = UDim2.new(0.9, 0, 0.15, 0)
-ToggleButton.Position = UDim2.new(0.05, 0, 0.55, 0)
+ToggleButton.Size = UDim2.new(0.1, 0, 0.1, 0)
+ToggleButton.Position = UDim2.new(0.45, 0, 0.05, 0)
 ToggleButton.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
 ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleButton.Text = "Hide GUI"
 ToggleButton.TextScaled = true
 ToggleButton.Font = Enum.Font.Gotham
 ToggleButton.BorderSizePixel = 0
-ToggleButton.Parent = Frame
+ToggleButton.Parent = ControlGui
 
 -- Variables for GUI Visibility
 local isGuiVisible = true
@@ -115,9 +108,12 @@ local isGuiVisible = true
 -- Function to Toggle GUI Visibility
 local function toggleGuiVisibility()
     isGuiVisible = not isGuiVisible
-    Frame.Visible = isGuiVisible
+    MainFrame.Visible = isGuiVisible
     ToggleButton.Text = isGuiVisible and "Hide GUI" or "Show GUI"
 end
+
+-- Toggle Button Action
+ToggleButton.MouseButton1Click:Connect(toggleGuiVisibility)
 
 -- Function to Teleport to Player
 local function teleportToPlayer(playerName)
@@ -174,8 +170,8 @@ end)
 
 -- Destroy Button Action
 DestroyButton.MouseButton1Click:Connect(function()
-    if ScreenGui then
-        ScreenGui:Destroy()
+    if MainGui then
+        MainGui:Destroy()
         print("GUI Destroyed")
     end
 end)
@@ -201,64 +197,20 @@ local function findClosestPlayer()
     return closestPlayer
 end
 
--- Function to Lock Camera to Target
-local function lockCameraToTarget()
-    local camera = game.Workspace.CurrentCamera
-    game:GetService("RunService").RenderStepped:Connect(function()
-        if isCameraLocked and targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            camera.CFrame = CFrame.new(camera.CFrame.Position, targetPlayer.Character.HumanoidRootPart.Position)
-        end
-    end)
-end
-
--- Camera Lock Button Action
+-- Lock Camera Button Action
 CameraLockButton.MouseButton1Click:Connect(function()
     isCameraLocked = not isCameraLocked
+    CameraLockButton.Text = isCameraLocked and "Unlock Camera" or "Lock Camera"
     if isCameraLocked then
-        CameraLockButton.Text = "Unlock Camera"
-        targetPlayer = findClosestPlayer()
-        lockCameraToTarget()
+        local closestPlayer = findClosestPlayer()
+        if closestPlayer and closestPlayer.Character and closestPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            local camera = game.Workspace.CurrentCamera
+            camera.CameraSubject = closestPlayer.Character.Humanoid
+            camera.CameraType = Enum.CameraType.Attach
+        end
     else
-        CameraLockButton.Text = "Lock Camera"
-        targetPlayer = nil
-    end
-end)
-
--- Toggle Button Action
-ToggleButton.MouseButton1Click:Connect(toggleGuiVisibility)
-
--- Drag Functionality
-local dragging
-local dragInput
-local startPos
-local startMousePos
-
-local function updateInput(input)
-    local delta = input.Position - startMousePos
-    Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-Frame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        startMousePos = input.Position
-        startPos = Frame.Position
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
-    end
-end)
-
-Frame.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        dragInput = input
-    end
-end)
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    if dragging and dragInput then
-        updateInput(dragInput)
+        local camera = game.Workspace.CurrentCamera
+        camera.CameraSubject = player.Character and player.Character:FindFirstChild("Humanoid") or camera.CameraSubject
+        camera.CameraType = Enum.CameraType.Custom
     end
 end)
