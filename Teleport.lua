@@ -97,6 +97,18 @@ DestroyButton.Font = Enum.Font.Gotham
 DestroyButton.BorderSizePixel = 0
 DestroyButton.Parent = Frame
 
+-- Toggle Visibility Button
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Size = UDim2.new(0.9, 0, 0.15, 0)
+ToggleButton.Position = UDim2.new(0.05, 0, 0.55, 0)
+ToggleButton.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.Text = "Hide GUI"
+ToggleButton.TextScaled = true
+ToggleButton.Font = Enum.Font.Gotham
+ToggleButton.BorderSizePixel = 0
+ToggleButton.Parent = Frame
+
 -- Variables for GUI Visibility
 local isGuiVisible = true
 
@@ -104,6 +116,7 @@ local isGuiVisible = true
 local function toggleGuiVisibility()
     isGuiVisible = not isGuiVisible
     Frame.Visible = isGuiVisible
+    ToggleButton.Text = isGuiVisible and "Hide GUI" or "Show GUI"
 end
 
 -- Function to Teleport to Player
@@ -204,32 +217,31 @@ CameraLockButton.MouseButton1Click:Connect(function()
     if isCameraLocked then
         CameraLockButton.Text = "Unlock Camera"
         targetPlayer = findClosestPlayer()
-        if targetPlayer then
-            lockCameraToTarget()
-        else
-            print("No player found within radius.")
-        end
+        lockCameraToTarget()
     else
         CameraLockButton.Text = "Lock Camera"
         targetPlayer = nil
     end
 end)
 
--- Dragging GUI
+-- Toggle Button Action
+ToggleButton.MouseButton1Click:Connect(toggleGuiVisibility)
+
+-- Drag Functionality
 local dragging
 local dragInput
-local dragStart
 local startPos
+local startMousePos
 
 local function updateInput(input)
-    local delta = input.Position - dragStart
+    local delta = input.Position - startMousePos
     Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
 
 Frame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
-        dragStart = input.Position
+        startMousePos = input.Position
         startPos = Frame.Position
         input.Changed:Connect(function()
             if input.UserInputState == Enum.UserInputState.End then
