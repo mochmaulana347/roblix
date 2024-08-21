@@ -9,8 +9,8 @@ ScreenGui.Parent = playerGui
 
 -- Frame for Main GUI
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0.3, 0, 0.4, 0)
-Frame.Position = UDim2.new(0.35, 0, 0.3, 0)
+Frame.Size = UDim2.new(0.3, 0, 0.5, 0)
+Frame.Position = UDim2.new(0.35, 0, 0.25, 0)
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Frame.BorderSizePixel = 0
 Frame.Parent = ScreenGui
@@ -39,7 +39,7 @@ Title.Parent = Frame
 
 -- Name Input
 local NameInput = Instance.new("TextBox")
-NameInput.Size = UDim2.new(0.9, 0, 0.2, 0)
+NameInput.Size = UDim2.new(0.9, 0, 0.15, 0)
 NameInput.Position = UDim2.new(0.05, 0, 0.25, 0)
 NameInput.PlaceholderText = "Enter username or display name"
 NameInput.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -52,7 +52,7 @@ NameInput.Parent = Frame
 -- Teleport Button
 local TeleportButton = Instance.new("TextButton")
 TeleportButton.Size = UDim2.new(0.9, 0, 0.15, 0)
-TeleportButton.Position = UDim2.new(0.05, 0, 0.45, 0)
+TeleportButton.Position = UDim2.new(0.05, 0, 0.4, 0)
 TeleportButton.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
 TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 TeleportButton.Text = "Teleport"
@@ -64,7 +64,7 @@ TeleportButton.Parent = Frame
 -- Loop Teleport Button
 local LoopButton = Instance.new("TextButton")
 LoopButton.Size = UDim2.new(0.9, 0, 0.15, 0)
-LoopButton.Position = UDim2.new(0.05, 0, 0.65, 0)
+LoopButton.Position = UDim2.new(0.05, 0, 0.55, 0)
 LoopButton.BackgroundColor3 = Color3.fromRGB(241, 196, 15)
 LoopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 LoopButton.Text = "Loop Teleport"
@@ -73,7 +73,19 @@ LoopButton.Font = Enum.Font.Gotham
 LoopButton.BorderSizePixel = 0
 LoopButton.Parent = Frame
 
--- Destroy GUI Button
+-- Camera Lock Button
+local CameraLockButton = Instance.new("TextButton")
+CameraLockButton.Size = UDim2.new(0.9, 0, 0.15, 0)
+CameraLockButton.Position = UDim2.new(0.05, 0, 0.7, 0)
+CameraLockButton.BackgroundColor3 = Color3.fromRGB(155, 89, 182)
+CameraLockButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CameraLockButton.Text = "Lock Camera"
+CameraLockButton.TextScaled = true
+CameraLockButton.Font = Enum.Font.Gotham
+CameraLockButton.BorderSizePixel = 0
+CameraLockButton.Parent = Frame
+
+-- Destroy Button
 local DestroyButton = Instance.new("TextButton")
 DestroyButton.Size = UDim2.new(0.9, 0, 0.15, 0)
 DestroyButton.Position = UDim2.new(0.05, 0, 0.85, 0)
@@ -85,47 +97,14 @@ DestroyButton.Font = Enum.Font.Gotham
 DestroyButton.BorderSizePixel = 0
 DestroyButton.Parent = Frame
 
--- Create Control GUI
-local ControlGui = Instance.new("ScreenGui")
-ControlGui.Name = "ControlGUI"
-ControlGui.Parent = playerGui
-
-local ControlFrame = Instance.new("Frame")
-ControlFrame.Size = UDim2.new(0.1, 0, 0.1, 0)
-ControlFrame.Position = UDim2.new(0.85, 0, 0.85, 0)
-ControlFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-ControlFrame.BorderSizePixel = 0
-ControlFrame.Parent = ControlGui
-
-local UICorner2 = Instance.new("UICorner")
-UICorner2.CornerRadius = UDim.new(0, 8)
-UICorner2.Parent = ControlFrame
-
-local ToggleButton = Instance.new("TextButton")
-ToggleButton.Size = UDim2.new(1, 0, 1, 0)
-ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleButton.Text = "Toggle Camera Lock"
-ToggleButton.TextScaled = true
-ToggleButton.Font = Enum.Font.GothamBold
-ToggleButton.BorderSizePixel = 0
-ToggleButton.Parent = ControlFrame
-
 -- Variables for GUI Visibility
 local isGuiVisible = true
 
 -- Function to Toggle GUI Visibility
 local function toggleGuiVisibility()
-    if ScreenGui then
-        isGuiVisible = not isGuiVisible
-        Frame.Visible = isGuiVisible
-    end
+    isGuiVisible = not isGuiVisible
+    Frame.Visible = isGuiVisible
 end
-
--- Control Button Action
-ToggleButton.MouseButton1Click:Connect(function()
-    toggleGuiVisibility()
-end)
 
 -- Function to Teleport to Player
 local function teleportToPlayer(playerName)
@@ -220,10 +199,10 @@ local function lockCameraToTarget()
 end
 
 -- Camera Lock Button Action
-ToggleButton.MouseButton1Click:Connect(function()
+CameraLockButton.MouseButton1Click:Connect(function()
     isCameraLocked = not isCameraLocked
     if isCameraLocked then
-        ToggleButton.Text = "Unlock Camera"
+        CameraLockButton.Text = "Unlock Camera"
         targetPlayer = findClosestPlayer()
         if targetPlayer then
             lockCameraToTarget()
@@ -231,7 +210,7 @@ ToggleButton.MouseButton1Click:Connect(function()
             print("No player found within radius.")
         end
     else
-        ToggleButton.Text = "Lock Camera"
+        CameraLockButton.Text = "Lock Camera"
         targetPlayer = nil
     end
 end)
