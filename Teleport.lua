@@ -1,52 +1,59 @@
 -- Setup GUI Utama
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+
+-- Create Main GUI
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "TeleportGUI"
+ScreenGui.Name = "MainGUI"
 ScreenGui.Parent = playerGui
 
+-- Frame for Main GUI
 local Frame = Instance.new("Frame")
 Frame.Size = UDim2.new(0.3, 0, 0.4, 0)
 Frame.Position = UDim2.new(0.35, 0, 0.3, 0)
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Warna gelap yang elegan
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Frame.BorderSizePixel = 0
 Frame.Parent = ScreenGui
 
-local UICorner = Instance.new("UICorner")  -- Membuat sudut membulat
+-- Styling for Main GUI
+local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = Frame
 
 local UIGradient = Instance.new("UIGradient")
 UIGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(45, 45, 45)),  -- Gradasi halus
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(45, 45, 45)),
     ColorSequenceKeypoint.new(1, Color3.fromRGB(15, 15, 15))
 }
 UIGradient.Parent = Frame
 
+-- Title Label
 local Title = Instance.new("TextLabel")
-Title.Text = "Teleport"
+Title.Text = "Main GUI"
 Title.Size = UDim2.new(1, 0, 0.2, 0)
 Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextScaled = true
-Title.Font = Enum.Font.GothamBold  -- Menggunakan font yang lebih modern
+Title.Font = Enum.Font.GothamBold
 Title.Parent = Frame
 
+-- Name Input
 local NameInput = Instance.new("TextBox")
 NameInput.Size = UDim2.new(0.9, 0, 0.2, 0)
-NameInput.Position = UDim2.new(0.05, 0, 0.25, 0)  -- Menyesuaikan posisi agar lebih rapi
+NameInput.Position = UDim2.new(0.05, 0, 0.25, 0)
 NameInput.PlaceholderText = "Enter username or display name"
 NameInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-NameInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Background input yang lebih gelap
+NameInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 NameInput.BorderSizePixel = 0
 NameInput.TextScaled = true
-NameInput.Font = Enum.Font.Gotham  -- Konsisten dengan font yang digunakan
+NameInput.Font = Enum.Font.Gotham
 NameInput.Parent = Frame
 
+-- Teleport Button
 local TeleportButton = Instance.new("TextButton")
-TeleportButton.Size = UDim2.new(0.9, 0, 0.15, 0)  -- Mengurangi ukuran tombol untuk proporsi yang lebih baik
+TeleportButton.Size = UDim2.new(0.9, 0, 0.15, 0)
 TeleportButton.Position = UDim2.new(0.05, 0, 0.45, 0)
-TeleportButton.BackgroundColor3 = Color3.fromRGB(52, 152, 219)  -- Warna biru yang lebih lembut
+TeleportButton.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
 TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 TeleportButton.Text = "Teleport"
 TeleportButton.TextScaled = true
@@ -54,10 +61,11 @@ TeleportButton.Font = Enum.Font.Gotham
 TeleportButton.BorderSizePixel = 0
 TeleportButton.Parent = Frame
 
+-- Loop Teleport Button
 local LoopButton = Instance.new("TextButton")
 LoopButton.Size = UDim2.new(0.9, 0, 0.15, 0)
 LoopButton.Position = UDim2.new(0.05, 0, 0.65, 0)
-LoopButton.BackgroundColor3 = Color3.fromRGB(241, 196, 15)  -- Warna kuning yang lebih lembut
+LoopButton.BackgroundColor3 = Color3.fromRGB(241, 196, 15)
 LoopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 LoopButton.Text = "Loop Teleport"
 LoopButton.TextScaled = true
@@ -65,10 +73,11 @@ LoopButton.Font = Enum.Font.Gotham
 LoopButton.BorderSizePixel = 0
 LoopButton.Parent = Frame
 
+-- Destroy GUI Button
 local DestroyButton = Instance.new("TextButton")
 DestroyButton.Size = UDim2.new(0.9, 0, 0.15, 0)
 DestroyButton.Position = UDim2.new(0.05, 0, 0.85, 0)
-DestroyButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60)  -- Warna merah yang lebih lembut
+DestroyButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60)
 DestroyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 DestroyButton.Text = "Destroy GUI"
 DestroyButton.TextScaled = true
@@ -76,7 +85,7 @@ DestroyButton.Font = Enum.Font.Gotham
 DestroyButton.BorderSizePixel = 0
 DestroyButton.Parent = Frame
 
--- GUI Kontrol
+-- Create Control GUI
 local ControlGui = Instance.new("ScreenGui")
 ControlGui.Name = "ControlGUI"
 ControlGui.Parent = playerGui
@@ -96,16 +105,16 @@ local ToggleButton = Instance.new("TextButton")
 ToggleButton.Size = UDim2.new(1, 0, 1, 0)
 ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleButton.Text = "Toggle GUI"
+ToggleButton.Text = "Toggle Camera Lock"
 ToggleButton.TextScaled = true
 ToggleButton.Font = Enum.Font.GothamBold
 ToggleButton.BorderSizePixel = 0
 ToggleButton.Parent = ControlFrame
 
--- Variabel untuk Mengontrol Visibilitas
+-- Variables for GUI Visibility
 local isGuiVisible = true
 
--- Fungsi untuk Mengontrol Visibilitas GUI
+-- Function to Toggle GUI Visibility
 local function toggleGuiVisibility()
     if ScreenGui then
         isGuiVisible = not isGuiVisible
@@ -113,12 +122,12 @@ local function toggleGuiVisibility()
     end
 end
 
--- Aksi Tombol Kontrol
+-- Control Button Action
 ToggleButton.MouseButton1Click:Connect(function()
     toggleGuiVisibility()
 end)
 
--- Fungsi untuk Teleportasi
+-- Function to Teleport to Player
 local function teleportToPlayer(playerName)
     for _, player in pairs(game.Players:GetPlayers()) do
         if player.Name:lower():find(playerName:lower()) or player.DisplayName:lower():find(playerName:lower()) then
@@ -132,11 +141,11 @@ local function teleportToPlayer(playerName)
     print("Player not found.")
 end
 
--- Variabel untuk Loop Teleport
+-- Variables for Loop Teleport
 local isLooping = false
-local teleportInterval = 1  -- waktu dalam detik untuk loop teleport
+local teleportInterval = 1  -- Interval in seconds for loop teleport
 
--- Fungsi Loop Teleport
+-- Function for Loop Teleport
 local function startLoopTeleport(playerName)
     while isLooping do
         teleportToPlayer(playerName)
@@ -144,18 +153,18 @@ local function startLoopTeleport(playerName)
     end
 end
 
--- Aksi Tombol Teleport
+-- Teleport Button Action
 TeleportButton.MouseButton1Click:Connect(function()
     local name = NameInput.Text
     if name and name ~= "" then
-        isLooping = false  -- Hentikan loop jika ada
+        isLooping = false  -- Stop loop if any
         teleportToPlayer(name)
     else
         print("Please enter a player name.")
     end
 end)
 
--- Aksi Tombol Loop Teleport
+-- Loop Teleport Button Action
 LoopButton.MouseButton1Click:Connect(function()
     local name = NameInput.Text
     if name and name ~= "" then
@@ -171,7 +180,7 @@ LoopButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Aksi Tombol Destroy
+-- Destroy Button Action
 DestroyButton.MouseButton1Click:Connect(function()
     if ScreenGui then
         ScreenGui:Destroy()
@@ -179,7 +188,55 @@ DestroyButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Fitur Geser GUI
+-- Camera Lock Variables
+local isCameraLocked = false
+local lockRadius = 50  -- Radius to find target players
+local targetPlayer = nil
+
+-- Function to Find Closest Player within Radius
+local function findClosestPlayer()
+    local closestDistance = lockRadius
+    local closestPlayer = nil
+    for _, p in pairs(game.Players:GetPlayers()) do
+        if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+            local distance = (p.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+            if distance <= closestDistance then
+                closestDistance = distance
+                closestPlayer = p
+            end
+        end
+    end
+    return closestPlayer
+end
+
+-- Function to Lock Camera to Target
+local function lockCameraToTarget()
+    local camera = game.Workspace.CurrentCamera
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if isCameraLocked and targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            camera.CFrame = CFrame.new(camera.CFrame.Position, targetPlayer.Character.HumanoidRootPart.Position)
+        end
+    end)
+end
+
+-- Camera Lock Button Action
+ToggleButton.MouseButton1Click:Connect(function()
+    isCameraLocked = not isCameraLocked
+    if isCameraLocked then
+        ToggleButton.Text = "Unlock Camera"
+        targetPlayer = findClosestPlayer()
+        if targetPlayer then
+            lockCameraToTarget()
+        else
+            print("No player found within radius.")
+        end
+    else
+        ToggleButton.Text = "Lock Camera"
+        targetPlayer = nil
+    end
+end)
+
+-- Dragging GUI
 local dragging
 local dragInput
 local dragStart
